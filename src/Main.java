@@ -5,47 +5,47 @@ import java.util.Date;
 
 public class Main {
     public static String ROOT = "D://IO_Games";
-    public static StringBuilder temp = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
         String[] dirPathsArray = new String[]{ROOT, ROOT + "/src", ROOT + "/res", ROOT + "/savegames", ROOT + "/temp",
                 ROOT + "/src/main", ROOT + "/src/test", ROOT + "/res/drawables", ROOT + "/res/vectors", ROOT + "/res/icons"};
         String[] filePathsArray = new String[]{ROOT + "/src/main/Main.java", ROOT + "/src/main/Utils.java",
                 ROOT + "/temp/temp.txt"};
-        dirAdd(dirPathsArray);
-        fileAdd(filePathsArray);
+        String temp = dirAdd(dirPathsArray) + fileAdd(filePathsArray);
         FileWriter fw = new FileWriter(ROOT + "/temp/temp.txt", true);
-        fw.write(temp.toString());
+        fw.write(temp);
         fw.close();
-
     }
-    public static void dirAdd(String[] dirPaths){
-        for (int i = 0; i < dirPaths.length; i++) {
-            File dir = new File(dirPaths[i]);
-            if (dir.mkdir()) {
 
-                temp.append("At " + new Date() + " was created dir " + dir + "\n");
+    public static String dirAdd(String[] dirPaths) {
+        StringBuilder result = new StringBuilder();
+        for (String dirPath : dirPaths) {
+            File dir = new File(dirPath);
+            if (dir.mkdir()) {
+                result.append("At " + new Date() + " was created dir " + dir + "\n");
             } else {
-                temp.append(new Date() + " Cannot create directory " + dir + "  – File exists \n");
+                result.append(new Date() + " Cannot create directory " + dir + "  – File exists \n");
             }
         }
-
+        return result.toString();
     }
-    public static void fileAdd(String[] filePaths){
-         for (int i = 0; i < filePaths.length; i++) {
-            File myFile = new File(filePaths[i]);
+
+    public static String fileAdd(String[] filePaths) {
+        StringBuilder result = new StringBuilder();
+        for (String filePath : filePaths) {
+            File myFile = new File(filePath);
             try {
                 if (myFile.createNewFile()) {
-                    temp.append("At " + new Date() + " was created file " + myFile + "\n");
+                    result.append("At " + new Date() + " was created file " + myFile + "\n");
                 } else {
-                    temp.append(new Date() + " Cannot create directory " + myFile + "  – File exists \n");
+                    result.append (new Date() + " Cannot create directory " + myFile + "  – File exists \n");
                 }
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
-                temp = temp.append(new Date() + ex.getMessage() + "\n");
+                result.append(new Date() + ex.getMessage() + "\n");
             }
         }
-
+        return result.toString();
     }
 }
 
